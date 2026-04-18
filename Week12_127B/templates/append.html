@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Menu - Mickey Cafe</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e6dada 0%, #d7ccc8 100%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #6d4c41, #8d6e63, #bcaaa4);
+        }
+
+        h2 {
+            text-align: center;
+            color: #3e2723;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5d4037;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #efebe9;
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            border-color: #8d6e63;
+            outline: none;
+            box-shadow: 0 0 8px rgba(141, 110, 99, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6d4c41 0%, #3e2723 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(62, 39, 35, 0.3);
+        }
+
+        .btn-back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #8d6e63;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>☕ Add New Menu</h2>
+    <form action="/append" method="POST">
+        <div class="form-group">
+            <label>Menu Name</label>
+            <input type="text" name="name" placeholder="เช่น Iced Latte" required>
+        </div>
+
+        <div class="form-group">
+            <label>Price (THB)</label>
+            <input type="number" name="price" step="0.01" placeholder="0.00" required>
+        </div>
+
+        <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" name="image" placeholder="แปะลิงก์รูปภาพจาก Google">
+        </div>
+
+        <div class="form-group">
+            <label>Stock Quantity</label>
+            <input type="number" name="stock" value="0">
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category_id" required>
+                <option value="">-- Select Category --</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit">✅ Save Menu</button>
+        <a href="/" class="btn-back">⬅️ Back to Home</a>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<<!DOCTYPE html>
+<html>
+<head>
+    <title>Mickey Cafe & Bakery</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* เปลี่ยนพื้นหลังเป็นโทนสีครีม-น้ำตาลกาแฟ */
+            background: linear-gradient(135deg, #e6dada 0%, #d7ccc8 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #4e342e; /* สีน้ำตาลเข้ม */
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #f5f5f5; /* ตัวอักษรสีขาวนวล */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #6d4c41 0%, #3e2723 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(62, 39, 35, 0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ขีดสีตกแต่งด้านบนการ์ด เป็นโทนกาแฟ/นม */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6d4c41, #8d6e63, #bcaaa4);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-container {
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #3e2723;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .card-info {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .card p {
+            margin: 8px 0;
+            color: #5d4037;
+            font-size: 14px;
+        }
+
+        .card p strong {
+            color: #3e2723;
+            font-size: 16px;
+        }
+
+        /* ป้าย Hashtag หมวดหมู่สินค้า */
+        .hashtag {
+            background: #8d6e63;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .actions a {
+            padding: 8px 15px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .actions a:first-child {
+            background: #795548; /* ปุ่มแก้ไขสีน้ำตาลอ่อน */
+            color: white;
+        }
+
+        .actions a:last-child {
+            background: #d84315; /* ปุ่มลบสีส้มอิฐเข้ม */
+            color: white;
+        }
+
+        .no-cakes {
+            text-align: center;
+            color: #4e342e;
+            padding: 80px 40px;
+            border: 3px dashed #8d6e63;
+            border-radius: 20px;
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<header>☕ Mickey Cafe & Bakery</header>
+
+<div class="container">
+    <a href="/append" class="btn">➕ Add New Menu</a>
+
+    {% if cakes %}
+    <div class="grid">
+        {% for cake in cakes %}
+        <div class="card">
+            <div class="card-content">
+                <img src="{{ cake.image }}" alt="{{ cake.name }}">
+                <div class="title-container">
+                    <h3>{{ cake.name }}</h3>
+                </div>
+                <div class="card-info">
+                    <p>ราคา: <strong>{{ cake.price }} บาท</strong></p>
+                    {% if cake.category_name %}
+                    <p><span class="hashtag">#{{ cake.category_name }}</span></p>
+                    {% endif %}
+                    {% if cake.stock is not none %}
+                    <p>คงเหลือ: {{ cake.stock }} ชิ้น</p>
+                    {% endif %}
+                </div>
+                <div class="actions">
+                    <a href="/edit/{{ cake.id }}">✏️ แก้ไข</a>
+                    <a href="/delete/{{ cake.id }}">🗑️ ลบ</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-cakes">ยังไม่มีรายการเมนูในระบบ ลองเพิ่มเมนูกาแฟหรือเบเกอรี่ใหม่ได้เลย</div>
+    {% endif %}
+</div>
+
+</body>
+</html>
